@@ -5,13 +5,13 @@
     <parent>
         <groupId>com.github.tobiassstadler.apm</groupId>
         <artifactId>apm-activemq-artemis-destination-plugin-parent</artifactId>
-        <version>1.0</version>
+        <version>1.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>com.github.tobiassstadler.apm</groupId>
     <artifactId>apm-activemq-artemis-destination-plugin-it</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
