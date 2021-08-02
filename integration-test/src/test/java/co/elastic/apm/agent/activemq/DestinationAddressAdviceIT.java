@@ -17,12 +17,15 @@ package co.elastic.apm.agent.activemq;
 
 import co.elastic.apm.api.ElasticApm;
 import co.elastic.apm.api.Scope;
+import co.elastic.apm.api.Span;
 import co.elastic.apm.api.Transaction;
 import co.elastic.apm.attach.ElasticApmAttacher;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.PathNotFoundException;
 import org.apache.activemq.artemis.api.core.TransportConfiguration;
+import org.apache.activemq.artemis.api.core.client.ActiveMQClient;
+import org.apache.activemq.artemis.api.core.client.ClientSession;
 import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
 import org.apache.activemq.artemis.core.remoting.impl.invm.InVMAcceptorFactory;
 import org.apache.activemq.artemis.core.remoting.impl.netty.NettyAcceptorFactory;
@@ -126,6 +129,50 @@ class DestinationAddressAdviceIT {
                 context.createProducer().send(context.createQueue("vm"), context.createMessage());
             }
         } finally {
+            transaction.end();
+        }
+
+        Map<String, Object> clientSpan = getClientSpan();
+
+        assertThrows(PathNotFoundException.class, () -> JsonPath.read(clientSpan, "$.context.destination.address"));
+        assertThrows(PathNotFoundException.class, () -> JsonPath.read(clientSpan, "$.context.destination.port"));
+    }
+
+    @Test
+    public void testNonExitSpan() throws Exception {
+        Transaction transaction = ElasticApm.startTransaction();
+
+        Span nonExitSpan = transaction.startSpan("messaging", null, null);
+        try (Scope scope = nonExitSpan.activate()) {
+            ClientSession session = ActiveMQClient.createServerLocator("tcp://localhost:61616")
+                    .createSessionFactory()
+                    .createSession();
+
+            session.createProducer("no-exit-span").send(session.createMessage(false));
+        } finally {
+            nonExitSpan.end();
+            transaction.end();
+        }
+
+        Map<String, Object> clientSpan = getClientSpan();
+
+        assertThrows(PathNotFoundException.class, () -> JsonPath.read(clientSpan, "$.context.destination.address"));
+        assertThrows(PathNotFoundException.class, () -> JsonPath.read(clientSpan, "$.context.destination.port"));
+    }
+
+    @Test
+    public void testNonMessagingSpan() throws Exception {
+        Transaction transaction = ElasticApm.startTransaction();
+
+        Span nonMessagingSpan = transaction.startExitSpan("foo", null, null);
+        try (Scope scope = nonMessagingSpan.activate()) {
+            ClientSession session = ActiveMQClient.createServerLocator("tcp://localhost:61616")
+                    .createSessionFactory()
+                    .createSession();
+
+            session.createProducer("no-messaging-span").send(session.createMessage(false));
+        } finally {
+            nonMessagingSpan.end();
             transaction.end();
         }
 

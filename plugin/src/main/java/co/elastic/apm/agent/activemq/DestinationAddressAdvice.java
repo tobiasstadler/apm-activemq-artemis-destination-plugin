@@ -15,15 +15,37 @@
  */
 package co.elastic.apm.agent.activemq;
 
+import co.elastic.apm.api.AbstractSpanImplAccessor;
 import co.elastic.apm.api.ElasticApm;
 import co.elastic.apm.api.Span;
 import net.bytebuddy.asm.Advice;
 import org.apache.activemq.artemis.core.client.impl.ClientSessionInternal;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+
 public class DestinationAddressAdvice {
 
+    private static final MethodHandle isExit = getMethodHandle("co.elastic.apm.agent.impl.transaction.Span", "isExit", boolean.class);
+
+    private static final MethodHandle getType = getMethodHandle("co.elastic.apm.agent.impl.transaction.Span", "getType", String.class);
+
+    private static MethodHandle getMethodHandle(String clazz, String method, Class<?> rtype) {
+        try {
+            return MethodHandles.publicLookup()
+                    .findVirtual(Class.forName(clazz), method, MethodType.methodType(rtype));
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException ignored) {
+            return null;
+        }
+    }
+
     @Advice.OnMethodEnter(suppress = Throwable.class, inline = false)
-    public static void onSend(@Advice.FieldValue("session") ClientSessionInternal session) {
+    public static void onSend(@Advice.FieldValue("session") ClientSessionInternal session) throws Throwable {
+        if (isExit == null || getType == null) {
+            return;
+        }
+
         Span span = ElasticApm.currentSpan();
         if (span.getId().isEmpty()) {
             return;
@@ -31,6 +53,11 @@ public class DestinationAddressAdvice {
 
         String remoteAddress = session.getConnection().getRemoteAddress();
         if (remoteAddress.startsWith("invm:")) {
+            return;
+        }
+
+        Object spanImpl = AbstractSpanImplAccessor.getAgentImpl(span);
+        if (!(boolean) isExit.invoke(spanImpl) || !"messaging".equals(getType.invoke(spanImpl))) {
             return;
         }
 
