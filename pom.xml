@@ -5,7 +5,7 @@
     <groupId>com.github.tobiassstadler.apm</groupId>
     <artifactId>apm-activemq-artemis-destination-plugin-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
 
     <licenses>
         <license>
@@ -19,7 +19,7 @@
         <url>https://github.com/tobiasstadler/apm-activemq-artemis-destination-plugin</url>
         <connection>scm:git:https://github.com/tobiasstadler/apm-activemq-artemis-destination-plugin.git</connection>
         <developerConnection>scm:git:https://github.com/tobiasstadler/apm-activemq-artemis-destination-plugin.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>1.1</tag>
   </scm>
 
     <properties>
