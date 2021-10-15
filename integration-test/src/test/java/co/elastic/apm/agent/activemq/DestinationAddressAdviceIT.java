@@ -85,7 +85,7 @@ class DestinationAddressAdviceIT {
         Map<String, String> configuration = new HashMap<>();
         configuration.put("server_url", "http://localhost:" + mockServerClient.getPort());
         configuration.put("report_sync", "true");
-        configuration.put("disable_metrics", "true");
+        configuration.put("disable_metrics", "*");
         configuration.put("plugins_dir", "target/apm-plugins");
         configuration.put("application_packages", "co.elastic.apm.agent.activemq");
 
