@@ -7,6 +7,7 @@ An Elastic APM agent plugin that sets the destination address for an ActiveMQ Ar
 | Plugin | Elastic APM Agent |
 | :--- | :--- |
 | 1.0+ | 1.25.0+ |
+| 2.0+ | 1.27.0+ |
 
 ## Installation
 
