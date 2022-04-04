@@ -78,7 +78,7 @@
             <dependency>
                 <groupId>org.mock-server</groupId>
                 <artifactId>mockserver-junit-jupiter</artifactId>
-                <version>5.13.0</version>
+                <version>5.13.1</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
