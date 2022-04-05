@@ -73,12 +73,12 @@
             <dependency>
                 <groupId>org.mock-server</groupId>
                 <artifactId>mockserver-client-java</artifactId>
-                <version>5.13.1</version>
+                <version>5.13.2</version>
             </dependency>
             <dependency>
                 <groupId>org.mock-server</groupId>
                 <artifactId>mockserver-junit-jupiter</artifactId>
-                <version>5.13.1</version>
+                <version>5.13.2</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -145,7 +145,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>3.2.4</version>
+                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-site-plugin</artifactId>
