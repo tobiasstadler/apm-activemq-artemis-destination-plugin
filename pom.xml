@@ -73,12 +73,12 @@
             <dependency>
                 <groupId>org.mock-server</groupId>
                 <artifactId>mockserver-client-java</artifactId>
-                <version>5.13.1</version>
+                <version>5.13.2</version>
             </dependency>
             <dependency>
                 <groupId>org.mock-server</groupId>
                 <artifactId>mockserver-junit-jupiter</artifactId>
-                <version>5.13.1</version>
+                <version>5.13.2</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -97,7 +97,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
