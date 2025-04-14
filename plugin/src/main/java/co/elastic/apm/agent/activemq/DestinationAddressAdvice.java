@@ -27,9 +27,9 @@ import java.lang.invoke.MethodType;
 
 public class DestinationAddressAdvice {
 
-    private static final MethodHandle isExit = getMethodHandle("co.elastic.apm.agent.impl.transaction.Span", "isExit", boolean.class);
+    private static final MethodHandle isExit = getMethodHandle("co.elastic.apm.agent.impl.transaction.AbstractSpanImpl", "isExit", boolean.class);
 
-    private static final MethodHandle getType = getMethodHandle("co.elastic.apm.agent.impl.transaction.Span", "getType", String.class);
+    private static final MethodHandle getType = getMethodHandle("co.elastic.apm.agent.impl.transaction.AbstractSpanImpl", "getType", String.class);
 
     private static MethodHandle getMethodHandle(String clazz, String method, Class<?> rtype) {
         try {
