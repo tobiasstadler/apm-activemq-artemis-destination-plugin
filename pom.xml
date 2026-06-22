@@ -27,7 +27,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <apache.activemq.version>2.54.0</apache.activemq.version>
-        <elastic.apm.agent.version>1.55.6</elastic.apm.agent.version>
+        <elastic.apm.agent.version>1.56.0</elastic.apm.agent.version>
         <mockserver.version>6.1.0</mockserver.version>
     </properties>
 
